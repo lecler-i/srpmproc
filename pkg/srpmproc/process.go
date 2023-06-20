@@ -359,7 +359,7 @@ func ProcessRPM(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error) {
 	}
 	md.BlobCache = map[string][]byte{}
 
-	remotePrefix := "rpms"
+	remotePrefix := "elrpms"
 	if pd.ModuleMode {
 		remotePrefix = "modules"
 	}
@@ -762,7 +762,7 @@ func processRPMTagless(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error
 	md.BlobCache = map[string][]byte{}
 
 	// TODO: add tagless module support
-	remotePrefix := "rpms"
+	remotePrefix := "elrpms"
 	if pd.ModuleMode {
 		remotePrefix = "modules"
 	}
