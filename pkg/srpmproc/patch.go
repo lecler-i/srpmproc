@@ -118,7 +118,8 @@ func executePatchesRpm(pd *data.ProcessData, md *data.ModeData) error {
 		return fmt.Errorf("could not get dist Worktree: %v", err)
 	}
 
-	remoteUrl := fmt.Sprintf("%s/patch/%s.git", pd.UpstreamPrefix, gitlabify(md.Name))
+	remotePrefix := "erepack-patch"
+	remoteUrl := fmt.Sprintf("%s/%s/%s.git", pd.UpstreamPrefix, remotePrefix, gitlabify(md.Name))
 	refspec := config.RefSpec(fmt.Sprintf("+refs/heads/*:refs/remotes/origin/*"))
 
 	_, err = repo.CreateRemote(&config.RemoteConfig{
