@@ -998,6 +998,9 @@ func processRPMTagless(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error
 		}
 
 		status, err := w.Status()
+        if (status.IsClean()) {
+			return nil, fmt.Errorf("No changes detected, upstream is up to date with downstream.")
+        }
 		pd.Log.Printf("successfully processed:\n%s", status)
 
 		// assign tag for our new remote we're about to push (derived from the SRPM version)
