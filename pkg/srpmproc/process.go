@@ -660,6 +660,9 @@ func ProcessRPM(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error) {
 
 		// show status
 		status, _ := w.Status()
+        if (status.IsClean()) {
+			return nil, fmt.Errorf("No changes detected, upstream is up to date with downstream.")
+        }
 		pd.Log.Printf("successfully processed:\n%s", status)
 
 		statusLines := strings.Split(status.String(), "\n")
