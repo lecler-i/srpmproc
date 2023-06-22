@@ -364,7 +364,7 @@ func ProcessRPM(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error) {
 	}
 	md.BlobCache = map[string][]byte{}
 
-	remotePrefix := "erepack"
+	remotePrefix := "elrpms"
 	if pd.ModuleMode {
 		remotePrefix = "modules"
 	}
@@ -384,6 +384,8 @@ func ProcessRPM(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error) {
 		}
 		remoteUrl := fmt.Sprintf("%s/%s/%s.git", pd.UpstreamPrefix, remotePrefix, gitlabify(md.Name))
 		refspec := config.RefSpec("+refs/heads/*:refs/remotes/origin/*")
+
+        log.Printf("Remote url a : %s", remoteUrl)
 
 		remote, err := repo.CreateRemote(&config.RemoteConfig{
 			Name:  "origin",
@@ -494,6 +496,7 @@ func ProcessRPM(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error) {
 		pd.Log.Printf("using remote: %s", remoteUrl)
 		refspec := config.RefSpec(fmt.Sprintf("+refs/heads/%s:refs/remotes/origin/%s", md.PushBranch, md.PushBranch))
 		pd.Log.Printf("using refspec: %s", refspec)
+        log.Printf("Remote url a : %s", remoteUrl)
 
 		_, err = repo.CreateRemote(&config.RemoteConfig{
 			Name:  "origin",
@@ -770,7 +773,7 @@ func processRPMTagless(pd *data.ProcessData) (*srpmprocpb.ProcessResponse, error
 	md.BlobCache = map[string][]byte{}
 
 	// TODO: add tagless module support
-	remotePrefix := "erepack"
+	remotePrefix := "elrpms"
 	if pd.ModuleMode {
 		remotePrefix = "modules"
 	}
