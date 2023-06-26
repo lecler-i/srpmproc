@@ -266,11 +266,16 @@ func NewProcessData(req *ProcessDataRequest) (*data.ProcessData, error) {
 	} else {
 		// create ssh key authenticator
 		authenticator, err = ssh.NewPublicKeysFromFile(req.SshUser, lastKeyLocation, "")
-	}
-	if err != nil {
-		return nil, fmt.Errorf("could not get git authenticator: %v", err)
-	}
+        if err != nil {
+            logger.Printf("could not find a ssh key at %s, trying with ssh-agent : %v", lastKeyLocation, err)
 
+            authenticator, err = ssh.NewSSHAgentAuth(req.SshUser)
+            if err != nil {
+                return nil, fmt.Errorf("could not get git authenticator: %v", err)
+            }
+        }
+
+	}
 	fsCreator := func(branch string) (billy.Filesystem, error) {
 		if req.TmpFsMode != "" {
 			return osfs.New(""), nil
